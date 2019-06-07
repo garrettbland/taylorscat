@@ -8,6 +8,7 @@
     		</div>
     		<div class="flex flex-col justify-between w-full sm:w-full md:w-1/2">
     			<div class="p-4">
+            <span class="bg-indigo-500 px-3 py-1 text-xs text-indigo-100 rounded-full">Coming Soon</span>
 	    			<h1 class="text-4xl font-bold font-sans">
 	    				Taylors Cat
 	    			</h1>
@@ -16,7 +17,6 @@
 	    			</p>
 	    		</div>
 	    		<div class="md:rounded-br-lg">
-	    			<!-- <span class="m-4 bg-indigo-700 px-3 py-1 text-xs text-indigo-100 rounded-full">New</span> -->
 	    			<div class="px-4 py-2 text-sm text-gray-600 italic">
 	    				Want to be reminded to check Taylors new cat pictures? Sign up below to receive nothing but a daily reminder.
 	    			</div>

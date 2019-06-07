@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "deploy": "vue-cli-service build && firebase deploy --only hosting"
   },
   "dependencies": {
     "core-js": "^2.6.5",
@@ -13,10 +14,12 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^1.2.0",
     "@vue/cli-plugin-babel": "^3.8.0",
     "@vue/cli-service": "^3.8.0",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",
+    "tailwindcss": "^1.0.3",
     "vue-template-compiler": "^2.6.10"
   }
 }

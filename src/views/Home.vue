@@ -3,8 +3,8 @@
 
     <div class="flex h-auto sm:h-auto md:h-screen items-center justify-center">
     	<div class="container max-w-4xl bg-white flex flex-wrap md:rounded-lg md:shadow-lg">
-    		<div class="w-full sm:w-full md:w-1/2">
-    			<img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80" class="w-full md:rounded-l-lg"/>
+    		<div class="w-full sm:w-full md:w-1/2 rounded-lg p-4">
+    			<img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80" class="w-full rounded-lg"/>
     		</div>
     		<div class="flex flex-col justify-between w-full sm:w-full md:w-1/2">
     			<div class="p-4">
@@ -20,7 +20,7 @@
 	    			<div class="px-4 py-2 text-sm text-gray-600 italic">
 	    				Want to be reminded to check Taylors new cat pictures? Sign up below to receive nothing but a daily reminder.
 	    			</div>
-	    			<div class="bg-gray-100 flex justify-between md:rounded-br-lg">
+	    			<div class="bg-gray-100 flex justify-between m-4 rounded-lg">
 	    				<input v-model="email" name="signup" placeholder="you@email.com" type="email" class="text-gray-900 border-2 border-transparent bg-transparent focus:outline-none p-4 w-4/5"/>
 	    				<button class="flex text-gray-900 p-4 focus:outline-none md:rounded-br-lg" v-bind:class="emailStatus" @click="subscribe()" @prevent.default>
 	    					<span class="h-4 w-4 mr-4 pt-px">

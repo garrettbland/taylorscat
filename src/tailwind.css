@@ -7,3 +7,20 @@
 button {
 	transition: all 0.2s ease 0s;
 }
+
+/* button spinner */
+button .loading {
+  animation-name: spin;
+  animation-duration: 1200ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; 
+}
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}

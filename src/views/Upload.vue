@@ -1,5 +1,6 @@
 <template>
   <div>
+  	<input type="file" ref="addImage" hidden @change="onFileChange">
     <div class="flex h-auto sm:h-auto md:h-screen items-center justify-center">
     	<div class="container max-w-4xl bg-white flex flex-wrap md:rounded-lg md:shadow-lg">
     		<div class="w-full sm:w-full md:w-1/2 p-4">
@@ -11,26 +12,33 @@
 	    				Drag & Drop
 	    			</div>
 	    			<div>
-	    				<button @click="chooseImage()" class="bg-blue-500 hover:bg-blue-600 rounded-lg text-white px-5 py-3 focus:outline-none">
+	    				<button @click="chooseImage()" class="bg-blue-500 hover:bg-blue-600 rounded-lg text-white px-5 py-2 focus:outline-none">
 	    					Select files to upload
 	    				</button>
-	    				<input type="file" ref="addImage" hidden @change="onFileChange">
 	    			</div>
     			</div>
     			<div v-if="tempImage !== ''" class="flex flex-col justify-between h-full">
     				<div>
 						<img :src="previewImage(tempImage)" class="rounded-lg relative z-10"/>
 					</div>
-					<div class="flex justify-between mt-4">
-						<button @click="removeImage" class="py-2 px-4 text-center border-2 border-red-500 text-red-500 rounded-lg hover:text-white hover:bg-red-500 mr-1 focus:outline-none">
-							<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-reactid="1231"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-						</button>
-						<button @click="submit" class="flex flex-1 items-center justify-center py-2 text-center border-2 border-blue-500 text-blue-500 rounded-lg hover:text-white hover:bg-blue-500 ml-1 focus:outline-none">
+					<div class="flex justify-between mt-4" >
+						<button @click="loading === false ? chooseImage() : null" v-bind:class="{'cursor-not-allowed':loading}" class="flex flex-row items-center justify-center py-2 px-4 text-center border-2 border-gray-500 text-gray-500 rounded-lg hover:text-white hover:bg-gray-500 mr-1 focus:outline-none">
 							<div class="w-5 h-5 mr-2">
-								<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/><polyline points="16 16 12 12 8 16"/></svg>
+								<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
 							</div>
 							<div>
+								Change
+							</div>
+						</button>
+						<button @click="loading === false ? submit() : null" v-bind:class="{'cursor-not-allowed':loading}" class="flex flex-1 items-center justify-center py-2 text-center border-2 border-blue-500 text-white rounded-lg bg-blue-500 hover:bg-blue-600 hover:border-blue-600 ml-1 focus:outline-none">
+							<div v-if="loading === false" class="w-5 h-5 mr-2">
+								<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/><polyline points="16 16 12 12 8 16"/></svg>
+							</div>
+							<div v-if="loading === false">
 								Upload <span v-if="loading">loading</span>
+							</div>
+							<div v-if="loading === true" class="w-5 h-5 mr-2 loading">
+								<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
 							</div>
 						</button>
 					</div>
@@ -74,12 +82,6 @@ export default {
 			this.$refs.addImage.click()
 
 		},
-		removeImage() {
-
-	    	// Resets temp image
-			this.tempImage = ''
-
-	    },
 		previewImage(image){
 
 			// Creates blob url so we can show user preview of image
@@ -149,6 +151,7 @@ export default {
 	    	state.loading = true
 
 	    	// upload file, then add firestore item, then end loading
+	    	// first check to make sure upload isn't in progress
 	    	state.uploadImage(state.tempImage).then(function(){
 	    		state.saveData()
 	    	})
@@ -165,16 +168,14 @@ export default {
 				.then((snapshot) => {
 					snapshot.ref.getDownloadURL().then(function(downloadURL) {
 
-						console.log('uploaded image path is '+downloadURL)
 		              	state.uploadedImagePath = downloadURL
 		              	resolve(downloadURL)
 
 		            });
 				}).catch((error) => {
 
-					// Something went wrong uploading image
 					// TO-DO: Make an alert or popup or something
-					console.error('Image upload failed...', item, error.message)
+					window.alert('Error. Something went wrong saving your image')
 
 				})
 			})
@@ -206,7 +207,7 @@ export default {
 				.catch(err => {
 
 					// TO-DO: Make an alert or popup or something
-					console.error(err)
+					window.alert('Error. Something went wrong saving your image')
 
 				})
 	    }

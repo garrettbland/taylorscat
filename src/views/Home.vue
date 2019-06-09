@@ -16,11 +16,11 @@
 	    				Welcome to Taylors Cat. Taylor uploads a new picture of his cat <strong>Millie</strong> on a daily basis. Check back everyday for a new cute picture! 
 	    			</p>
 	    		</div>
-	    		<div class="md:rounded-br-lg">
+	    		<div>
 	    			<div class="px-4 py-2 text-sm text-gray-600 italic">
 	    				Want to be reminded to check Taylors new cat pictures? Sign up below to receive nothing but a daily reminder.
 	    			</div>
-	    			<div class="bg-gray-100 flex justify-between m-4 rounded-lg">
+	    			<div class="bg-gray-100 flex justify-between m-4 rounded-lg border-2 border-gray-200">
 	    				<input v-model="email" name="signup" placeholder="you@email.com" type="email" class="text-gray-900 border-2 border-transparent bg-transparent focus:outline-none p-4 w-4/5"/>
 	    				<button class="flex text-gray-900 p-4 focus:outline-none md:rounded-br-lg" v-bind:class="emailStatus" @click="subscribe()" @prevent.default>
 	    					<span class="h-4 w-4 mr-4 pt-px">

@@ -24,6 +24,7 @@ const google = new firebase.auth.GoogleAuthProvider()
 
 // firestore collections
 const images = db.collection('images')
+const subscribers = db.collection('subscribers')
 
 export {
     db,
@@ -31,5 +32,6 @@ export {
     currentUser,
     storage,
     images,
+    subscribers,
     google
 }

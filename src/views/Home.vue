@@ -20,17 +20,30 @@
 	    			</p>
 	    		</div>
 	    		<div>
-	    			<div class="px-4 py-2 text-sm text-gray-600 italic">
+	    			<div class="px-4 text-sm text-gray-600 italic">
 	    				Want to be reminded to check Taylors new cat pictures? Sign up below to receive nothing but a daily reminder.
 	    			</div>
-	    			<div class="bg-gray-100 flex justify-between m-4 rounded-lg border-2 border-gray-200">
+
+            <div class="bg-green-500 text-white flex items-center justify-center m-4 rounded-lg" v-if="successful">
+              <div class="py-4">
+                <p class="text-center"><strong>Success!</strong></p>
+                <p>You will now receive daily email reminders.</p>
+              </div>
+            </div>
+
+	    			<div class="bg-gray-100 flex justify-between m-4 rounded-lg border-2 border-gray-200" v-if="!successful">
 	    				<input v-model="email" name="signup" placeholder="you@email.com" type="email" class="text-gray-900 border-2 border-transparent bg-transparent focus:outline-none p-4 w-4/5"/>
-	    				<button class="flex text-gray-900 p-4 focus:outline-none md:rounded-br-lg" v-bind:class="emailStatus" @click="subscribe()" @prevent.default>
-	    					<span class="h-4 w-4 mr-4 pt-px">
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-reactid="261"><path d="M20 6L9 17 4 12"/></svg>
-	    					</span>
-	    					Subscribe
-	    				</button>
+              <button @prevent.default @click="subscribing === false ? subscribe() : null" v-bind:class="emailStatus" class="flex flex-1 items-center justify-center py-2 text-center border-2 border-blue-500 text-white rounded-lg bg-blue-500 hover:bg-blue-600 hover:border-blue-600 focus:outline-none m-2">
+                <div v-if="subscribing === false" class="w-5 h-5 mx-2">
+                  <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-reactid="261"><path d="M20 6L9 17 4 12"/></svg>
+                </div>
+                <div v-if="subscribing === false" class="mr-2">
+                  Subscribe
+                </div>
+                <div v-if="subscribing === true" class="w-5 h-5 loading">
+                  <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
+                </div>
+              </button>
 	    			</div>
 	    		</div>
     		</div>
@@ -47,7 +60,9 @@ export default {
   	return {
       loading:true,
   		email:'',
-      image:''
+      image:'',
+      successful:false,
+      subscribing:false,
   	}
   },
   methods:{
@@ -81,14 +96,47 @@ export default {
     },
     subscribe(){
     	if(this.validEmail(this.email)){
-    		window.alert('This feature isnt working yet')
+
+        // Set state so we can use variable within firebase functions
+        var state = this
+
+        // Set loading state of subscribtion
+        state.subscribing = true
+
+        // Call firebase function to create sale and pass in sale object
+        this.$firebase.subscribers.add(
+          {
+            email:state.email,
+            created:Date.now(),
+            subscribed:true
+          }
+        )
+        .then(docRef => {
+
+          // Stop loading
+          state.subscribing = false
+
+          // Reset
+          state.email = ''
+
+          // Set successful state
+          state.successful = true
+
+        })
+        .catch(err => {
+
+          // TO-DO: Make an alert or popup or something
+          window.alert('Error. Something went wrong saving your image')
+
+        })
+ 
     	}
     }
   },
   computed:{
   	emailStatus(){
   		if(this.validEmail(this.email)){
-  			return 'text-green-500 opactiy-100 hover:text-green-700'
+  			return 'text-white opactiy-100'
   		}else{
   			return 'opacity-50 cursor-not-allowed'
   		}

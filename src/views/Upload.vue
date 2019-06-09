@@ -7,10 +7,10 @@
     		<!--success-->
     		<div class="flex flex-col items-center justify-center text-center w-full px-4 py-4 sm:py-4 md:py-12" v-if="success">
     			<img src="https://images.unsplash.com/photo-1472698938026-79bed881e5b7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80" class="rounded-lg w-full sm:w-full md:w-1/2 mx-auto mb-8"/>
-    			<h1 class="text-4xl font-bold font-sans">
+    			<h1 class="text-4xl font-bold">
     				Success!
     			</h1>
-    			<p class="text-lg font-sans leading-regular text-gray-800">
+    			<p class="text-lg leading-regular text-gray-800">
     				Your adorable picture has been uploaded and will now be shown!
     			</p>
     			<div class="mt-6">
@@ -70,13 +70,13 @@
 	    		</div>
 	    		<div class="flex w-full h-full sm:w-full md:w-1/2">
 	    			<div class="p-4">
-		    			<h1 class="text-4xl font-bold font-sans">
+		    			<h1 class="text-4xl font-bold">
 		    				Upload
 		    			</h1>
-		    			<p class="text-lg font-sans leading-regular text-gray-800 mb-6">
+		    			<p class="text-lg leading-regular text-gray-800 mb-6">
 		    				Upload your adorable pet picture here.
 		    			</p>
-		    			<p class="text-lg font-sans leading-regular text-gray-800">
+		    			<p class="text-lg leading-regular text-gray-800">
 		    				Don't worry if you can't post daily. On off days we will show users a randomly selected photo
 		    				from your previous uploads.
 		    			</p>

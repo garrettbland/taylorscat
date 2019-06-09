@@ -1,21 +1,24 @@
 <template>
   <div>
-
     <div class="flex h-auto sm:h-auto md:h-screen items-center justify-center">
     	<div class="container max-w-4xl bg-white flex flex-wrap md:rounded-lg md:shadow-lg">
     		<div class="w-full sm:w-full md:w-1/2 rounded-lg py-4 px-4 sm:px-4 md:pl-4 md:pr-0 flex items-center">
-          <div v-if="loading">
-            Loading Image
+          <div class="w-full min-h-full bg-gray-200 rounded-lg relative z-30">
+            <div v-if="loading" class="absolute z-30 flex items-center justify-center w-full h-full bg-gray-200 rounded-lg">
+              <div class="w-5 h-5 text-gray-500 loading relative z-40">
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
+              </div>
+            </div>
+            <img v-if="!loading" :src="image" class="w-full rounded-lg relative z-20"/>
           </div>
-    			<img v-if="!loading" :src="image" class="w-full rounded-lg"/>
     		</div>
     		<div class="flex flex-col justify-between w-full sm:w-full md:w-1/2">
     			<div class="p-4">
             <span class="bg-indigo-500 px-3 py-1 text-xs text-indigo-100 rounded-full">Coming Soon</span>
-	    			<h1 class="text-4xl font-bold font-sans">
+	    			<h1 class="text-4xl font-bold">
 	    				Taylors Cat
 	    			</h1>
-	    			<p class="text-lg font-sans leading-regular text-gray-800">
+	    			<p class="text-lg leading-regular text-gray-800">
 	    				Welcome to Taylors Cat. Taylor uploads a new picture of his cat <strong>Millie</strong> on a daily basis. Check back everyday for a new cute picture! 
 	    			</p>
 	    		</div>
@@ -49,7 +52,6 @@
     		</div>
     	</div>
     </div>
-
   </div>
 </template>
 

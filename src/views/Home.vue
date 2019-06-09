@@ -3,8 +3,11 @@
 
     <div class="flex h-auto sm:h-auto md:h-screen items-center justify-center">
     	<div class="container max-w-4xl bg-white flex flex-wrap md:rounded-lg md:shadow-lg">
-    		<div class="w-full sm:w-full md:w-1/2 rounded-lg p-4">
-    			<img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80" class="w-full rounded-lg"/>
+    		<div class="w-full sm:w-full md:w-1/2 rounded-lg p-4 flex items-center">
+          <div v-if="loading">
+            Loading Image
+          </div>
+    			<img v-if="!loading" :src="image" class="w-full rounded-lg"/>
     		</div>
     		<div class="flex flex-col justify-between w-full sm:w-full md:w-1/2">
     			<div class="p-4">
@@ -42,10 +45,37 @@ export default {
   name: 'Home',
   data(){
   	return {
-  		email:''
+      loading:true,
+  		email:'',
+      image:''
   	}
   },
   methods:{
+    async getImage(){
+
+      var state = this
+
+      // set loading
+      state.loading = true
+
+      state.$firebase.images.where('user', '==', 'taylor').orderBy('uploaded','desc').limit(1).get().then(function(snapshot){
+        snapshot.forEach(function(doc){
+          console.log(doc.data())
+          state.image = doc.data().url
+        })
+
+        // Set loading to false
+        state.loading = false
+
+      }).catch(function(err){
+
+        // Set loading to false
+        state.loading = false
+
+        console.log('Error getting documents '+err)
+      })
+
+    },
   	validEmail(email){
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       return re.test(email)
@@ -64,6 +94,12 @@ export default {
   			return 'opacity-50 cursor-not-allowed'
   		}
   	}
+  },
+  mounted(){
+    var state = this
+    state.getImage().then(function(){
+      state.loading = false
+    })
   }
 }
 </script>

@@ -60,7 +60,6 @@ export default {
 
       state.$firebase.images.where('user', '==', 'taylor').orderBy('uploaded','desc').limit(1).get().then(function(snapshot){
         snapshot.forEach(function(doc){
-          console.log(doc.data())
           state.image = doc.data().url
         })
 

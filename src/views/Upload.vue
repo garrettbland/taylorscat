@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="dropzone">
   	<input type="file" ref="addImage" hidden @change="onFileChange">
     <div class="flex h-auto sm:h-auto md:h-screen items-center justify-center">
     	<div class="container max-w-4xl bg-white flex flex-wrap md:rounded-lg md:shadow-lg">
@@ -114,13 +114,18 @@ export default {
 			return URL.createObjectURL(image)
 
 		},
-		onFileChange(e) {
+		onFileChange(e,dragged) {
 
 			// Set state so we can use variable within functions
 			var state = this
 		
 			// Listen for user to select image and add image to temp image for upload
-			var file = e.target.files[0]
+			// if dragged is true, then e is the file object
+			if(dragged){
+				var file = e
+			}else{
+				var file = e.target.files[0]
+			}
 
 			// Get file extension
 			var fileExtension = file.name.split('.')[file.name.split('.').length - 1].toLowerCase();
@@ -251,6 +256,29 @@ export default {
 	    	})
 
 	    }
+	},
+	mounted(){
+
+		var state = this
+
+		window.addEventListener('dragenter',function(event){
+			event.preventDefault();
+		})
+
+		window.addEventListener('dragleave',function(event){
+			event.preventDefault();
+		})
+
+		window.addEventListener('dragover',function(event){
+			event.preventDefault();
+		})
+
+		window.addEventListener('drop',function(event){
+			event.preventDefault();
+			var file = event.dataTransfer.files[0];
+			state.onFileChange(file,true)
+		})
+
 	}
 }
 </script>

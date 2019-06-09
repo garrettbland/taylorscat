@@ -3,7 +3,7 @@
 
     <div class="flex h-auto sm:h-auto md:h-screen items-center justify-center">
     	<div class="container max-w-4xl bg-white flex flex-wrap md:rounded-lg md:shadow-lg">
-    		<div class="w-full sm:w-full md:w-1/2 rounded-lg p-4 flex items-center">
+    		<div class="w-full sm:w-full md:w-1/2 rounded-lg py-4 px-4 sm:px-4 md:pl-4 md:pr-0 flex items-center">
           <div v-if="loading">
             Loading Image
           </div>
@@ -31,9 +31,9 @@
               </div>
             </div>
 
-	    			<div class="bg-gray-100 flex justify-between m-4 rounded-lg border-2 border-gray-200" v-if="!successful">
+	    			<div class="bg-gray-100 flex justify-between m-4 rounded-lg" v-if="!successful">
 	    				<input v-model="email" name="signup" placeholder="you@email.com" type="email" class="text-gray-900 border-2 border-transparent bg-transparent focus:outline-none p-4 w-4/5"/>
-              <button @prevent.default @click="subscribing === false ? subscribe() : null" v-bind:class="emailStatus" class="flex flex-1 items-center justify-center py-2 text-center border-2 border-blue-500 text-white rounded-lg bg-blue-500 hover:bg-blue-600 hover:border-blue-600 focus:outline-none m-2">
+              <button @prevent.default @click="subscribing === false ? subscribe() : null" v-bind:class="emailStatus" class="flex flex-1 items-center justify-center py-2 text-center border-2 border-blue-500 text-white rounded-lg bg-blue-500 focus:outline-none m-2">
                 <div v-if="subscribing === false" class="w-5 h-5 mx-2">
                   <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-reactid="261"><path d="M20 6L9 17 4 12"/></svg>
                 </div>
@@ -136,7 +136,7 @@ export default {
   computed:{
   	emailStatus(){
   		if(this.validEmail(this.email)){
-  			return 'text-white opactiy-100'
+  			return 'text-white opactiy-100 hover:bg-blue-600 hover:border-blue-600'
   		}else{
   			return 'opacity-50 cursor-not-allowed'
   		}

@@ -9,8 +9,15 @@ Vue.prototype.$firebase = firebase
 
 Vue.config.productionTip = false
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+// make sure firebase is initialized for page reloads
+let app
+firebase.auth.onAuthStateChanged(user => {
+    if (!app) {
+        app = new Vue({
+            el: '#app',
+            router,
+            store,
+            render: h => h(App)
+        })
+    }
+})

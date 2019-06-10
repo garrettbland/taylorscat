@@ -14,17 +14,17 @@
     		</div>
     		<div class="flex flex-col justify-between w-full sm:w-full md:w-1/2">
     			<div class="p-4">
-            <span class="bg-indigo-500 px-3 py-1 text-xs text-indigo-100 rounded-full">Coming Soon</span>
+            <span class="bg-indigo-500 px-3 py-1 text-xs text-indigo-100 rounded-full">Update Coming Soon!</span>
 	    			<h1 class="text-4xl font-bold">
-	    				Taylors Cat
+	    				Millie The Cat
 	    			</h1>
 	    			<p class="text-lg leading-regular text-gray-800">
-	    				Welcome to Taylors Cat. Taylor uploads a new picture of his cat <strong>Millie</strong> on a daily basis. Check back everyday for a new cute picture! 
+	    				Welcome to Millie The Cat. Taylor or Jamie uploads a new picture of their cat <strong>Millie</strong> on a daily basis. Check back everyday for a new cute picture! 
 	    			</p>
 	    		</div>
 	    		<div>
 	    			<div class="px-4 text-sm text-gray-600 italic">
-	    				Want to be reminded to check Taylors new cat pictures? Sign up below to receive nothing but a daily reminder.
+	    				Want to be reminded to check Millies new picture? Sign up below to receive nothing but a daily reminder.
 	    			</div>
 
             <div class="bg-green-500 text-white flex items-center justify-center m-4 rounded-lg" v-if="successful">

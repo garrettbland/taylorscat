@@ -9,7 +9,7 @@
                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
               </div>
             </div>
-            <img v-if="!loading" :src="image" class="w-full rounded-lg relative z-20"/>
+            <img v-if="!loading" :src="document.data().url" class="w-full rounded-lg relative z-20"/>
           </div>
     		</div>
     		<div class="flex flex-col justify-between w-full sm:w-full md:w-1/2">
@@ -31,7 +31,7 @@
                 </button>
               </div>
               <div>
-                4 hearts today so far!
+                {{ hearts }} hearts today so far!
               </div>
             </div>
 	    		</div>
@@ -75,16 +75,34 @@ export default {
   	return {
       loading:true,
   		email:'',
-      image:'',
       successful:false,
       subscribing:false,
-      heart:false
+      heart:false,
+      hearts:0,
+      document:{}
   	}
   },
   methods:{
     setHeart(){
-      console.log('set heart to '+!this.heart)
-      this.heart = !this.heart
+      if(this.heart){
+        console.log('remove heart')
+        this.heart = false
+        this.hearts = this.hearts - 1
+      }else{
+        console.log('add heart')
+        this.heart = true
+        this.hearts = this.hearts + 1
+      }
+      this.updateHearts(this.hearts)
+    },
+    updateHearts(hearts){
+      var state = this
+
+      var imageDocument = state.$firebase.images.doc(state.document.id);
+
+      imageDocument.update({
+        hearts:hearts
+      })
     },
     async getImage(){
 
@@ -95,7 +113,8 @@ export default {
 
       state.$firebase.images.where('user', '==', 'taylor').orderBy('uploaded','desc').limit(1).get().then(function(snapshot){
         snapshot.forEach(function(doc){
-          state.image = doc.data().url
+          state.document = doc
+          state.hearts = doc.data().hearts || 0
         })
 
         // Set loading to false
@@ -165,7 +184,7 @@ export default {
       if(this.heart === true){
         return 'bg-pink-300'
       }else{
-        return 'bg-gray-200'
+        return 'bg-gray-200 shadow-inner'
       }
     },
     hasHeartedSvg(){

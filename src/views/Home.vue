@@ -21,6 +21,19 @@
 	    			<p class="text-lg leading-regular text-gray-800">
 	    				Welcome to Millie The Cat. Taylor or Jamie uploads a new picture of their cat <strong>Millie</strong> on a daily basis. Check back everyday for a new cute picture! 
 	    			</p>
+            <div class="flex flex-col items-center justify-center py-12">
+              <div>
+                Leave Millie a heart!
+              </div>
+              <div class="py-4">
+                <button @click="setHeart()" class="hover:bg-pink-300 p-4 rounded-lg heart focus:outline-none" v-bind:class="hasHearted">
+                  <svg v-bind:class="hasHeartedSvg" class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-reactid="661"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </button>
+              </div>
+              <div>
+                4 hearts today so far!
+              </div>
+            </div>
 	    		</div>
 	    		<div>
 	    			<div class="px-4 text-sm text-gray-600 italic">
@@ -65,9 +78,14 @@ export default {
       image:'',
       successful:false,
       subscribing:false,
+      heart:false
   	}
   },
   methods:{
+    setHeart(){
+      console.log('set heart to '+!this.heart)
+      this.heart = !this.heart
+    },
     async getImage(){
 
       var state = this
@@ -142,7 +160,21 @@ export default {
   		}else{
   			return 'opacity-50 cursor-not-allowed'
   		}
-  	}
+  	},
+    hasHearted(){
+      if(this.heart === true){
+        return 'bg-pink-300'
+      }else{
+        return 'bg-gray-200'
+      }
+    },
+    hasHeartedSvg(){
+      if(this.heart === true){
+        return 'text-white'
+      }else{
+        return 'text-gray-400'
+      }
+    }
   },
   mounted(){
     var state = this

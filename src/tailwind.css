@@ -28,3 +28,12 @@ button {
 .font-sans {
 	font-family: 'Nunito', sans-serif;
 }
+
+.heart {
+
+}
+
+.heart:hover svg {
+  color:#ffffff;
+  transition: all 0.2s ease 0s;
+}

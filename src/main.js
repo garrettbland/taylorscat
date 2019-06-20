@@ -4,7 +4,8 @@ import router from './router'
 import store from './store'
 import './tailwind.css'
 const firebase = require('./firebase.js')
-
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 Vue.prototype.$firebase = firebase
 
 Vue.config.productionTip = false

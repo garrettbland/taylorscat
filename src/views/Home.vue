@@ -33,6 +33,9 @@
               <div>
                 {{ hearts }} hearts today so far!
               </div>
+              <div>
+                local storage id name {{imageid}}
+              </div>
             </div>
 	    		</div>
 	    		<div>
@@ -79,7 +82,9 @@ export default {
       subscribing:false,
       heart:false,
       hearts:0,
-      document:{}
+      document:{},
+      imageid:'',
+      canVote:true,
   	}
   },
   methods:{
@@ -200,6 +205,22 @@ export default {
     state.getImage().then(function(){
       state.loading = false
     })
-  }
+
+
+    //   //check if votedImageId equals todays image id
+    //   if(localStorage.votedImageId === 'id'){
+
+    //     // check localStorage.voteStatus and set can vote to whatever votestatus is
+       
+
+    //   }else{
+
+    //     //set local storage of votedImageId to todays image id and set can vote to true
+    //     localStorage.votedImageId = 'id'
+
+    //   }
+    }
+
+  
 }
 </script>

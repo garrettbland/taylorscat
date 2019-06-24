@@ -26,15 +26,15 @@
                 Leave Millie a heart!
               </div>
               <div class="py-4">
-                <button @click="setHeart()" class="hover:bg-pink-300 p-4 rounded-lg heart focus:outline-none" v-bind:class="hasHearted">
-                  <svg v-bind:class="hasHeartedSvg" class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-reactid="661"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                <button v-if="heart === 'true'" @click="setHeart('false')" class="hover:bg-pink-300 p-4 rounded-lg heart focus:outline-none bg-pink-300">
+                  <svg class="w-12 h-12 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-reactid="661"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </button>
+                <button v-if="heart === 'false'" @click="setHeart('true')" class="hover:bg-pink-300 p-4 rounded-lg heart focus:outline-none bg-gray-200 shadow-inner">
+                  <svg class="w-12 h-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-reactid="661"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                 </button>
               </div>
               <div>
                 {{ hearts }} hearts today so far!
-              </div>
-              <div>
-                local storage id name {{imageid}}
               </div>
             </div>
 	    		</div>
@@ -88,16 +88,21 @@ export default {
   	}
   },
   methods:{
-    setHeart(){
-      if(this.heart){
-        console.log('remove heart')
-        this.heart = false
-        this.hearts = this.hearts - 1
-      }else{
-        console.log('add heart')
-        this.heart = true
-        this.hearts = this.hearts + 1
-      }
+    setHeart(value){
+      this.heart = value
+      console.log('update heart local storage to '+value)
+      localStorage.voteStatus = value
+      value === 'true' ? this.hearts ++ : this.hearts --
+
+      // if(this.heart){
+      //   console.log('remove heart')
+      //   this.heart = false
+      //   this.hearts = this.hearts - 1
+      // }else{
+      //   console.log('add heart')
+      //   this.heart = true
+      //   this.hearts = this.hearts + 1
+      // }
       this.updateHearts(this.hearts)
     },
     updateHearts(hearts){
@@ -175,6 +180,47 @@ export default {
         })
  
     	}
+    },
+    checkVoteStatus(){
+      var state = this
+      var todaysDate = new Date(Date.now()).toLocaleDateString();
+      console.log(todaysDate)
+      if(todaysDate === localStorage.lastViewedDate){
+        console.log('check vote value')
+        if(localStorage.voteStatus){
+          console.log('local storage vote status is '+localStorage.voteStatus)
+          state.heart = localStorage.voteStatus
+        }else{
+          console.log('no local storage for vote status is set yet. Set to false')
+          localStorage.voteStatus = false
+          state.heart = false
+        }
+      } else {
+        state.heart = false
+        console.log('set local storage last viewed date')
+        localStorage.lastViewedDate = new Date(Date.now()).toLocaleDateString();
+      }
+    },
+    checkButton(){
+      var todaysDate = new Date(Date.now()).toLocaleDateString();
+      console.log(todaysDate)
+      if(todaysDate === localStorage.lastViewedDate){
+        console.log('check vote value')
+        if(localStorage.voteStatus){
+          console.log('local storage vote status is '+localStorage.voteStatus)
+          this.heart = localStorage.voteStatus
+          return localStorage.voteStatus
+        }else{
+          console.log('no local storage for vote status is set yet. Set to false')
+          this.heart = false
+          return false
+        }
+      } else {
+        this.heart = false
+        console.log('set local storage last viewed date')
+        localStorage.lastViewedDate = new Date(Date.now()).toLocaleDateString();
+        return false
+      }
     }
   },
   computed:{
@@ -198,7 +244,7 @@ export default {
       }else{
         return 'text-gray-400'
       }
-    }
+    },
   },
   mounted(){
     var state = this
@@ -206,6 +252,7 @@ export default {
       state.loading = false
     })
 
+    this.checkButton()
 
     //   //check if votedImageId equals todays image id
     //   if(localStorage.votedImageId === 'id'){

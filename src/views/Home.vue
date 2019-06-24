@@ -209,17 +209,14 @@ export default {
         if(localStorage.voteStatus){
           console.log('local storage vote status is '+localStorage.voteStatus)
           this.heart = localStorage.voteStatus
-          return localStorage.voteStatus
         }else{
           console.log('no local storage for vote status is set yet. Set to false')
-          this.heart = false
-          return false
+          this.heart = 'false'
         }
       } else {
-        this.heart = false
+        this.heart = 'false'
         console.log('set local storage last viewed date')
         localStorage.lastViewedDate = new Date(Date.now()).toLocaleDateString();
-        return false
       }
     }
   },
